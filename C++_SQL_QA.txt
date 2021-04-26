@@ -1,0 +1,108 @@
+-----------------------------------------------------------------------------
+Question 1. Create a function to determine if a word or phrase is a palindrome.
+The function will take as input a string and return a boolean that is true if the
+word or phrase is a palindrome and false otherwise.
+-----------------------------------------------------------------------------
+#include <iostream>
+#include <string>
+using namespace std;
+
+bool IsPalindromic(string& strInput);
+
+int main()
+{
+   string str;
+   cout << "Enter a string to check palindromic";
+   getline(cin, str);
+   cout << "\"" << str << "\"" <<  " is " << (IsPalindromic(str) ? "" : "NOT") << " palindromic";
+}
+
+/**
+* @description: A function to check whether the given string is palindromic or not
+* @params: strInput - input string
+* @return: bool - true if palindromic, false otherwise
+*/
+bool IsPalindromic(string& strInput)
+{
+   size_t size = strInput.length();
+   for (int i = 0; i <= size / 2; i++)
+   {
+      if (toupper(strInput.at(i)) != toupper(strInput.at(strInput.length() - 1 - i)))
+      {
+         return false;
+      }
+   }
+   return true;
+}
+----------------------------------------------------------------------------------------------------------
+Question 2. A retail company maintains the data of its customers in the CUSTOMER table. 
+Write a query to print the IDs and the NAMEs of the customers, sorted by CUSTOMER.NAME in descending order. 
+If two or more customers have the same CUSTOMER.NAME, then sort these by CUSTOMER.ID in ascending order.
+-----------------------------------------------------------------------------------------------------------
+-- create customer table
+CREATE TABLE customer(
+  ID INTEGER PRIMARY KEY CHECK (ID BETWEEN 1 AND 1000),
+  NAME VARCHAR(100) NOT NULL,
+  COUNTRY VARCHAR NOT NULL,
+  CREDITS INTEGER NOT NULL
+);
+
+-- insert customer details
+INSERT INTO customer VALUES (1, 'Frances White', 'USA', 200350);
+INSERT INTO customer VALUES (2, 'Carolyn Bradley', 'UK', 200750);
+INSERT INTO customer VALUES (3, 'Annie Fernandez', 'France', 280350);
+INSERT INTO customer VALUES (4, 'Ruth Hanson', 'USA', 207350);
+INSERT INTO customer VALUES (5, 'Ruth Gutierrez', 'China', 200360);
+
+-- fetch customer data
+SELECT * FROM customer ORDER BY name DESC, id;
+--------------
+RESULT:
+ID	NAME			COUNTRY	CREDITS
+4	Ruth Hanson		USA		207350
+5	Ruth Gutierrez	China	200360
+1	Frances White	USA		200350
+2	Carolyn Bradley	UK		200750
+3	Annie Fernandez	France	280350
+
+----------------------------------------------------------------------------------------------------------
+Question 3. The given table 'students' contains the total marks of a student in a class. 
+The teacher of the class wants to assign grades to the students with the following logic:
+·         Greater > 90 | A+
+·         Greater > 70 | A
+·         Greater > 50 | B
+·         Greater >= 40 | C
+·         Less than 40 | Fail
+
+Write an SQL query to achieve the same. Return ID, name, marks, grade for each student.
+-----------------------------------------------------------------------------------------------------------
+-- create student table
+CREATE TABLE students (
+  id INTEGER PRIMARY KEY,
+  name VARCHAR NOT NULL,
+  marks INTEGER NOT NULL
+);
+
+-- insert student details
+INSERT INTO students VALUES (1, 'Matt', 44);
+INSERT INTO students VALUES (2, 'John', 57);
+INSERT INTO students VALUES (3, 'Lucas', 78);
+
+-- fetch student data
+SELECT id, name, 
+CASE
+	WHEN marks > 90 THEN 'A+'
+	WHEN marks > 70 THEN 'A'
+	WHEN marks > 50 THEN 'B'
+	WHEN marks >= 40 THEN 'C'
+	ELSE 'Fail'
+END AS grade 
+FROM student;
+-----------------
+RESULT:
+id	name	grade
+1	Matt	C
+2	John	B
+3	Lucas	A
+
+
